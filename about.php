@@ -3,6 +3,16 @@ $page_title = "Green Leaf Energy | About";
 $body_class = "about-page";
 include("header.inc");
 include("nav.inc");
+require_once("settings.php");
+
+$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+
+if (!$conn) {
+    die("<p>Database connection failed.</p>");
+}
+
+$query = "SELECT * FROM about_members";
+$result = mysqli_query($conn, $query);
 ?>
 
 <main>
@@ -23,25 +33,18 @@ include("nav.inc");
         <h2>Members and Contributions</h2>
 
         <dl>
-            <dt>Owen Sinclair</dt>
-            <dd>Role: About page developer</dd>
-            <dd>Quote: “Wer kämpft, kann verlieren. Wer nicht kämpft, hat schon verloren.”</dd>
-            <dd>Translation: “Those who fight may lose. Those who do not fight have already lost.”</dd>
-
-            <dt>Will Daly</dt>
-            <dd>Role: Job application page developer</dd>
-            <dd>Quote: Deus faustus</dd>
-            <dd>Translation: Lucky day</dd>
-
-            <dt>Raffay Ahmad</dt>
-            <dd>Role: Jobs page developer</dd>
-            <dd>Quote: L’essentiel est invisible pour les yeux</dd>
-            <dd>Translation: What is essential is invisible to the eye</dd>
-
-            <dt>Sazzad Hossain Shafin</dt>
-            <dd>Role: Home page developer</dd>
-            <dd>Quote: Caminante, no hay camino, se hace camino al andar</dd>
-            <dd>Translation: Traveler, there is no path; the path is made by walking.</dd>
+            <?php
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($member = mysqli_fetch_assoc($result)) {
+                    echo "<dt>" . htmlspecialchars($member["member_name"]) . "</dt>";
+                    echo "<dd>Role: " . htmlspecialchars($member["role"]) . "</dd>";
+                    echo "<dd>Quote: " . htmlspecialchars($member["quote"]) . "</dd>";
+                    echo "<dd>Translation: " . htmlspecialchars($member["translation"]) . "</dd>";
+                }
+            } else {
+                echo "<p>No member information found.</p>";
+            }
+            ?>
         </dl>
     </section>
 
@@ -58,7 +61,8 @@ include("nav.inc");
         <h2>Fun Facts</h2>
 
         <table>
-            <caption>Group member fun facts</caption>
+            <caption>Group member fun facts loaded from database</caption>
+
             <thead>
                 <tr>
                     <th scope="col">Member</th>
@@ -70,37 +74,21 @@ include("nav.inc");
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Owen Sinclair</td>
-                    <td>Pro Golfer</td>
-                    <td>Pizza</td>
-                    <td>Melbourne</td>
-                    <td>Golf</td>
-                </tr>
+                <?php
+                mysqli_data_seek($result, 0);
 
-                <tr>
-                    <td>Will Daly</td>
-                    <td>Garbage Truck Driver</td>
-                    <td>Rice</td>
-                    <td>Kyoto</td>
-                    <td>Cricket</td>
-                </tr>
+                while ($member = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($member["member_name"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($member["dream_job"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($member["favourite_food"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($member["hometown"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($member["favourite_sport"]) . "</td>";
+                    echo "</tr>";
+                }
 
-                <tr>
-                    <td>Raffay Ahmad</td>
-                    <td>Software Engineer</td>
-                    <td>Burger</td>
-                    <td>Cape Town</td>
-                    <td>Football</td>
-                </tr>
-
-                <tr>
-                    <td>Sazzad Hossain Shafin</td>
-                    <td>Web Developer</td>
-                    <td>Pasta</td>
-                    <td>Dhaka</td>
-                    <td>Football</td>
-                </tr>
+                mysqli_close($conn);
+                ?>
             </tbody>
         </table>
     </section>
