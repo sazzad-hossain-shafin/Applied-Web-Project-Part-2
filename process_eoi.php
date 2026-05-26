@@ -8,6 +8,7 @@ function clean_input($data) {
     return $data;
 }
 
+/* Block direct access */
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     header("Location: apply.php");
     exit();
@@ -19,71 +20,126 @@ if (!$conn) {
     die("<p>Database connection failed.</p>");
 }
 
-$job_reference = clean_input($_POST["jobref"]);
-$first_name = clean_input($_POST["fname"]);
-$last_name = clean_input($_POST["lname"]);
-$date_of_birth = clean_input($_POST["dob"]);
-$gender = clean_input($_POST["gender"]);
-$street_address = clean_input($_POST["address"]);
-$suburb_town = clean_input($_POST["suburb"]);
-$state = clean_input($_POST["state"]);
-$postcode = clean_input($_POST["postcode"]);
-$email = clean_input($_POST["email"]);
-$phone = clean_input($_POST["phonenumber"]);
-$other_skills = clean_input($_POST["other_skills"]);
+/* Safely collect form data */
+$job_reference = isset($_POST["jobref"]) ? clean_input($_POST["jobref"]) : "";
+$first_name = isset($_POST["fname"]) ? clean_input($_POST["fname"]) : "";
+$last_name = isset($_POST["lname"]) ? clean_input($_POST["lname"]) : "";
+$date_of_birth = isset($_POST["dob"]) ? clean_input($_POST["dob"]) : "";
+$gender = isset($_POST["gender"]) ? clean_input($_POST["gender"]) : "";
+$street_address = isset($_POST["address"]) ? clean_input($_POST["address"]) : "";
+$suburb_town = isset($_POST["suburb"]) ? clean_input($_POST["suburb"]) : "";
+$state = isset($_POST["state"]) ? clean_input($_POST["state"]) : "";
+$postcode = isset($_POST["postcode"]) ? clean_input($_POST["postcode"]) : "";
+$email = isset($_POST["email"]) ? clean_input($_POST["email"]) : "";
+$phone = isset($_POST["phonenumber"]) ? clean_input($_POST["phonenumber"]) : "";
+$other_skills = isset($_POST["other_skills"]) ? clean_input($_POST["other_skills"]) : "";
 
-$skills = "";
-
-if (isset($_POST["skills"])) {
-    $skills = implode(", ", $_POST["skills"]);
-}
-
+/* Skills */
 $skill_1 = "";
 $skill_2 = "";
 $skill_3 = "";
 
-if (strpos($skills, "Teamwork") !== false) {
-    $skill_1 = "Teamwork";
+if (isset($_POST["skills"]) && is_array($_POST["skills"])) {
+    $selected_skills = $_POST["skills"];
+
+    if (in_array("Teamwork", $selected_skills)) {
+        $skill_1 = "Teamwork";
+    }
+
+    if (in_array("Coding", $selected_skills)) {
+        $skill_2 = "Coding";
+    }
+
+    $extra_skills = array();
+
+    if (in_array("Frontend Development", $selected_skills)) {
+        $extra_skills[] = "Frontend Development";
+    }
+
+    if (in_array("Software Development", $selected_skills)) {
+        $extra_skills[] = "Software Development";
+    }
+
+    $skill_3 = implode(", ", $extra_skills);
 }
 
-if (strpos($skills, "Coding") !== false) {
-    $skill_2 = "Coding";
-}
-
-if (strpos($skills, "Frontend Development") !== false || strpos($skills, "Software Development") !== false) {
-    $skill_3 = $skills;
-}
-
+/* Server-side validation */
 $errors = "";
 
-if (!preg_match("/^[A-Za-z0-9]{5}$/", $job_reference)) {
+if ($job_reference == "") {
+    $errors .= "<p>Job reference is required.</p>";
+} elseif (!preg_match("/^[A-Za-z0-9]{5}$/", $job_reference)) {
     $errors .= "<p>Job reference must be exactly 5 letters or numbers.</p>";
 }
 
-if (!preg_match("/^[A-Za-z]{1,20}$/", $first_name)) {
+if ($first_name == "") {
+    $errors .= "<p>First name is required.</p>";
+} elseif (!preg_match("/^[A-Za-z]{1,20}$/", $first_name)) {
     $errors .= "<p>First name must only contain letters and be 20 characters or less.</p>";
 }
 
-if (!preg_match("/^[A-Za-z]{1,20}$/", $last_name)) {
+if ($last_name == "") {
+    $errors .= "<p>Last name is required.</p>";
+} elseif (!preg_match("/^[A-Za-z]{1,20}$/", $last_name)) {
     $errors .= "<p>Last name must only contain letters and be 20 characters or less.</p>";
 }
 
-if (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $date_of_birth)) {
+if ($date_of_birth == "") {
+    $errors .= "<p>Date of birth is required.</p>";
+} elseif (!preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $date_of_birth)) {
     $errors .= "<p>Date of birth must be in dd/mm/yyyy format.</p>";
 }
 
-if (!preg_match("/^\d{4}$/", $postcode)) {
+if ($gender == "") {
+    $errors .= "<p>Gender is required.</p>";
+}
+
+if ($street_address == "") {
+    $errors .= "<p>Street address is required.</p>";
+} elseif (strlen($street_address) > 40) {
+    $errors .= "<p>Street address must be 40 characters or less.</p>";
+}
+
+if ($suburb_town == "") {
+    $errors .= "<p>Suburb or town is required.</p>";
+} elseif (strlen($suburb_town) > 40) {
+    $errors .= "<p>Suburb or town must be 40 characters or less.</p>";
+}
+
+if ($state == "") {
+    $errors .= "<p>State is required.</p>";
+}
+
+if ($postcode == "") {
+    $errors .= "<p>Postcode is required.</p>";
+} elseif (!preg_match("/^\d{4}$/", $postcode)) {
     $errors .= "<p>Postcode must be exactly 4 digits.</p>";
 }
 
-if (!preg_match("/^\d{8,12}$/", $phone)) {
-    $errors .= "<p>Phone number must be 8 to 12 digits.</p>";
-}
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if ($email == "") {
+    $errors .= "<p>Email address is required.</p>";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors .= "<p>Email address is not valid.</p>";
 }
 
+if ($phone == "") {
+    $errors .= "<p>Phone number is required.</p>";
+} elseif (!preg_match("/^\d{8,12}$/", $phone)) {
+    $errors .= "<p>Phone number must be 8 to 12 digits.</p>";
+}
+
+/* Check that job reference exists in jobs table */
+if ($job_reference != "") {
+    $check_job = mysqli_real_escape_string($conn, $job_reference);
+    $job_query = "SELECT job_reference FROM jobs WHERE job_reference = '$check_job'";
+    $job_result = mysqli_query($conn, $job_query);
+
+    if (!$job_result || mysqli_num_rows($job_result) == 0) {
+        $errors .= "<p>The selected job reference does not exist.</p>";
+    }
+}
+
+/* Show errors */
 if ($errors != "") {
     $page_title = "Application Error";
     $body_class = "apply-page";
@@ -100,6 +156,23 @@ if ($errors != "") {
     mysqli_close($conn);
     exit();
 }
+
+/* Escape before insert */
+$job_reference = mysqli_real_escape_string($conn, $job_reference);
+$first_name = mysqli_real_escape_string($conn, $first_name);
+$last_name = mysqli_real_escape_string($conn, $last_name);
+$date_of_birth = mysqli_real_escape_string($conn, $date_of_birth);
+$gender = mysqli_real_escape_string($conn, $gender);
+$street_address = mysqli_real_escape_string($conn, $street_address);
+$suburb_town = mysqli_real_escape_string($conn, $suburb_town);
+$state = mysqli_real_escape_string($conn, $state);
+$postcode = mysqli_real_escape_string($conn, $postcode);
+$email = mysqli_real_escape_string($conn, $email);
+$phone = mysqli_real_escape_string($conn, $phone);
+$skill_1 = mysqli_real_escape_string($conn, $skill_1);
+$skill_2 = mysqli_real_escape_string($conn, $skill_2);
+$skill_3 = mysqli_real_escape_string($conn, $skill_3);
+$other_skills = mysqli_real_escape_string($conn, $other_skills);
 
 $query = "INSERT INTO eoi
 (job_reference, first_name, last_name, date_of_birth, gender, street_address, suburb_town, state, postcode, email, phone, skill_1, skill_2, skill_3, other_skills, status)
@@ -119,8 +192,8 @@ if ($result) {
     $eoi_number = mysqli_insert_id($conn);
 
     echo "<h2>Application Submitted Successfully</h2>";
-    echo "<p>Thank you, " . $first_name . ". Your application has been received.</p>";
-    echo "<p>Your EOI number is: <strong>" . $eoi_number . "</strong></p>";
+    echo "<p>Thank you, " . htmlspecialchars($first_name) . ". Your application has been received.</p>";
+    echo "<p>Your EOI number is: <strong>" . htmlspecialchars($eoi_number) . "</strong></p>";
     echo "<p>Status: New</p>";
 } else {
     echo "<h2>Application Error</h2>";

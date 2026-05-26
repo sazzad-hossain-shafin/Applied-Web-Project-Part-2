@@ -196,6 +196,14 @@ label {
     font-weight: bold;
 }
 
+small {
+    display: block;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 0.9em;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="search"],
