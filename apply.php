@@ -1,6 +1,7 @@
 <?php
 $page_title = "Green Leaf Energy | Apply";
 $body_class = "apply-page";
+
 include("header.inc");
 include("nav.inc");
 require_once("settings.php");
@@ -28,12 +29,16 @@ $result = mysqli_query($conn, $query);
 
         <form method="post" action="process_eoi.php">
 
+            <!-- JOB REFERENCE -->
             <label for="jobref">Job Reference Number:</label>
+            <small>Select one available job from the dropdown list.</small>
+
             <select id="jobref" name="jobref" required>
                 <option value="">Select a job</option>
 
                 <?php
                 while ($job = mysqli_fetch_assoc($result)) {
+
                     $ref = htmlspecialchars($job["job_reference"]);
                     $title = htmlspecialchars($job["job_title"]);
 
@@ -48,10 +53,14 @@ $result = mysqli_query($conn, $query);
                 ?>
             </select>
 
+            <!-- PERSONAL INFORMATION -->
             <fieldset>
+
                 <legend>Personal Information</legend>
 
                 <label for="fname">First Name:</label>
+                <small>Letters only, maximum 20 characters.</small>
+
                 <input
                     type="text"
                     id="fname"
@@ -62,6 +71,8 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="lname">Last Name:</label>
+                <small>Letters only, maximum 20 characters.</small>
+
                 <input
                     type="text"
                     id="lname"
@@ -72,6 +83,8 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="dob">Date of Birth:</label>
+                <small>Please use dd/mm/yyyy format.</small>
+
                 <input
                     type="text"
                     id="dob"
@@ -80,9 +93,12 @@ $result = mysqli_query($conn, $query);
                     pattern="\d{2}/\d{2}/\d{4}"
                     required
                 >
+
             </fieldset>
 
+            <!-- GENDER -->
             <fieldset>
+
                 <legend>Gender</legend>
 
                 <input type="radio" id="male" name="gender" value="Male" required>
@@ -93,12 +109,17 @@ $result = mysqli_query($conn, $query);
 
                 <input type="radio" id="other" name="gender" value="Other">
                 <label for="other">Other</label>
+
             </fieldset>
 
+            <!-- CONTACT INFORMATION -->
             <fieldset>
+
                 <legend>Contact Information</legend>
 
                 <label for="address">Street Address:</label>
+                <small>Maximum 40 characters.</small>
+
                 <input
                     type="text"
                     id="address"
@@ -108,6 +129,8 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="suburb">Suburb/Town:</label>
+                <small>Maximum 40 characters.</small>
+
                 <input
                     type="text"
                     id="suburb"
@@ -117,6 +140,7 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="state">State:</label>
+
                 <select id="state" name="state" required>
                     <option value="">Select State</option>
                     <option value="VIC">VIC</option>
@@ -130,6 +154,8 @@ $result = mysqli_query($conn, $query);
                 </select>
 
                 <label for="postcode">Postcode:</label>
+                <small>Must be exactly 4 digits.</small>
+
                 <input
                     type="text"
                     id="postcode"
@@ -139,6 +165,8 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="phonenumber">Phone Number:</label>
+                <small>Enter 8 to 12 digits only.</small>
+
                 <input
                     type="text"
                     id="phonenumber"
@@ -149,15 +177,20 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="email">Email Address:</label>
+                <small>Please enter a valid email address.</small>
+
                 <input
                     type="email"
                     id="email"
                     name="email"
                     required
                 >
+
             </fieldset>
 
+            <!-- SKILLS -->
             <fieldset>
+
                 <legend>Applicant Skills</legend>
 
                 <input type="checkbox" id="teamwork" name="skills[]" value="Teamwork">
@@ -175,18 +208,22 @@ $result = mysqli_query($conn, $query);
                 <br><br>
 
                 <label for="other_skills">Other Skills:</label>
+                <small>Optional: Describe additional skills or experience.</small>
 
                 <textarea
                     id="other_skills"
                     name="other_skills"
                     rows="5"
                 ></textarea>
+
             </fieldset>
 
+            <!-- BUTTONS -->
             <button type="submit">Submit Application</button>
             <button type="reset">Reset Form</button>
 
         </form>
+
     </section>
 
 </main>
