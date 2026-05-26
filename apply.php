@@ -3,12 +3,22 @@ $page_title = "Green Leaf Energy | Apply";
 $body_class = "apply-page";
 include("header.inc");
 include("nav.inc");
+require_once("settings.php");
+
+$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+
+if (!$conn) {
+    die("<p>Database connection failed.</p>");
+}
 
 $job_ref = "";
 
 if (isset($_GET['ref'])) {
     $job_ref = $_GET['ref'];
 }
+
+$query = "SELECT job_reference, job_title FROM jobs";
+$result = mysqli_query($conn, $query);
 ?>
 
 <main>
@@ -19,15 +29,24 @@ if (isset($_GET['ref'])) {
         <form method="post" action="process_eoi.php">
 
             <label for="jobref">Job Reference Number:</label>
-            <input
-                type="text"
-                id="jobref"
-                name="jobref"
-                required
-                pattern="[A-Za-z0-9]{5}"
-                title="Exactly 5 letters or numbers"
-                value="<?php echo $job_ref; ?>"
-            >
+            <select id="jobref" name="jobref" required>
+                <option value="">Select a job</option>
+
+                <?php
+                while ($job = mysqli_fetch_assoc($result)) {
+                    $ref = htmlspecialchars($job["job_reference"]);
+                    $title = htmlspecialchars($job["job_title"]);
+
+                    if ($job_ref == $job["job_reference"]) {
+                        echo "<option value='$ref' selected>$title ($ref)</option>";
+                    } else {
+                        echo "<option value='$ref'>$title ($ref)</option>";
+                    }
+                }
+
+                mysqli_close($conn);
+                ?>
+            </select>
 
             <fieldset>
                 <legend>Personal Information</legend>
