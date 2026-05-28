@@ -28,12 +28,10 @@ $result = mysqli_query($conn, $query);
     <section>
         <h2>Job Application Form</h2>
 
-<form method="post" action="process_eoi.php" novalidate>
+        <form method="post" action="process_eoi.php">
 
             <!-- JOB REFERENCE -->
             <label for="jobref">Job Reference Number:</label>
-            <small>Select one available job from the dropdown list.</small>
-
             <select id="jobref" name="jobref" required>
                 <option value="">Select a job</option>
 
@@ -52,6 +50,7 @@ $result = mysqli_query($conn, $query);
 
                 mysqli_close($conn);
                 ?>
+
             </select>
 
             <!-- PERSONAL INFORMATION -->
@@ -87,8 +86,6 @@ $result = mysqli_query($conn, $query);
                     id="dob"
                     name="dob"
                     placeholder="dd/mm/yyyy"
-                    pattern="\d{2}/\d{2}/\d{4}"
-                    required
                 >
 
             </fieldset>
@@ -98,7 +95,7 @@ $result = mysqli_query($conn, $query);
 
                 <legend>Gender</legend>
 
-                <input type="radio" id="male" name="gender" value="Male" required>
+                <input type="radio" id="male" name="gender" value="Male">
                 <label for="male">Male</label>
 
                 <input type="radio" id="female" name="gender" value="Female">
@@ -135,7 +132,6 @@ $result = mysqli_query($conn, $query);
                 >
 
                 <label for="state">State:</label>
-
                 <select id="state" name="state" required>
                     <option value="">Select State</option>
                     <option value="VIC">VIC</option>
@@ -146,6 +142,7 @@ $result = mysqli_query($conn, $query);
                     <option value="SA">SA</option>
                     <option value="TAS">TAS</option>
                     <option value="ACT">ACT</option>
+
                 </select>
 
                 <label for="postcode">Postcode:</label>
@@ -156,6 +153,7 @@ $result = mysqli_query($conn, $query);
                     id="postcode"
                     name="postcode"
                     pattern="\d{4}"
+                    required
                 >
 
                 <label for="phonenumber">Phone Number:</label>
@@ -167,13 +165,14 @@ $result = mysqli_query($conn, $query);
                     name="phonenumber"
                     pattern="\d{8,12}"
                     title="8 to 12 digits"
+                    required
                 >
 
                 <label for="email">Email Address:</label>
                 <small>Please enter a valid email address.</small>
 
                 <input
-                    type="email"
+                    type="text"
                     id="email"
                     name="email"
                 >
