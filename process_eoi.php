@@ -16,6 +16,30 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 
 $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
 
+/* Create the table if it doesn't exist */
+$create_table = "CREATE TABLE IF NOT EXISTS eoi (
+    EOInumber INT(11) NOT NULL AUTO_INCREMENT,
+    job_reference VARCHAR(5) NOT NULL,
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    date_of_birth VARCHAR(10) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    street_address VARCHAR(40) NOT NULL,
+    suburb_town VARCHAR(40) NOT NULL,
+    state VARCHAR(3) NOT NULL,
+    postcode VARCHAR(4) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(12) NOT NULL,
+    skill_1 VARCHAR(50) DEFAULT NULL,
+    skill_2 VARCHAR(50) DEFAULT NULL,
+    skill_3 VARCHAR(50) DEFAULT NULL,
+    other_skills TEXT DEFAULT NULL,
+    status ENUM('New','Current','Final') DEFAULT 'New',
+    PRIMARY KEY (EOInumber)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+
+mysqli_query($conn, $create_table);
+
 if (!$conn) {
     die("<p>Database connection failed.</p>");
 }

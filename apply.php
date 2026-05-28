@@ -1,4 +1,5 @@
 <?php
+
 $page_title = "Green Leaf Energy | Apply";
 $body_class = "apply-page";
 
@@ -27,7 +28,7 @@ $result = mysqli_query($conn, $query);
     <section>
         <h2>Job Application Form</h2>
 
-        <form method="post" action="process_eoi.php">
+<form method="post" action="process_eoi.php" novalidate>
 
             <!-- JOB REFERENCE -->
             <label for="jobref">Job Reference Number:</label>
@@ -66,8 +67,6 @@ $result = mysqli_query($conn, $query);
                     id="fname"
                     name="fname"
                     maxlength="20"
-                    pattern="[A-Za-z]+"
-                    required
                 >
 
                 <label for="lname">Last Name:</label>
@@ -78,8 +77,6 @@ $result = mysqli_query($conn, $query);
                     id="lname"
                     name="lname"
                     maxlength="20"
-                    pattern="[A-Za-z]+"
-                    required
                 >
 
                 <label for="dob">Date of Birth:</label>
@@ -125,7 +122,6 @@ $result = mysqli_query($conn, $query);
                     id="address"
                     name="address"
                     maxlength="40"
-                    required
                 >
 
                 <label for="suburb">Suburb/Town:</label>
@@ -136,7 +132,6 @@ $result = mysqli_query($conn, $query);
                     id="suburb"
                     name="suburb"
                     maxlength="40"
-                    required
                 >
 
                 <label for="state">State:</label>
@@ -161,7 +156,6 @@ $result = mysqli_query($conn, $query);
                     id="postcode"
                     name="postcode"
                     pattern="\d{4}"
-                    required
                 >
 
                 <label for="phonenumber">Phone Number:</label>
@@ -173,7 +167,6 @@ $result = mysqli_query($conn, $query);
                     name="phonenumber"
                     pattern="\d{8,12}"
                     title="8 to 12 digits"
-                    required
                 >
 
                 <label for="email">Email Address:</label>
@@ -183,7 +176,6 @@ $result = mysqli_query($conn, $query);
                     type="email"
                     id="email"
                     name="email"
-                    required
                 >
 
             </fieldset>
