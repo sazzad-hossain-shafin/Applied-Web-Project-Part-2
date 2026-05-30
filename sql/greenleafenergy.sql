@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2026 at 10:33 PM
+-- Generation Time: May 30, 2026 at 02:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -80,8 +80,9 @@ CREATE TABLE `eoi` (
 --
 
 INSERT INTO `eoi` (`EOInumber`, `job_reference`, `first_name`, `last_name`, `date_of_birth`, `gender`, `street_address`, `suburb_town`, `state`, `postcode`, `email`, `phone`, `skill_1`, `skill_2`, `skill_3`, `other_skills`, `status`) VALUES
-(1, 'WD001', 'Sazzad', 'Shafin', '21/04/2006', 'Male', '21 woodlands ave', 'kew east', 'VIC', '3102', 'shshafin35@gmail.com', '0400000000', '', 'Coding', 'Coding, Frontend Development, Software Development', '', 'New'),
-(2, 'WD001', 'Sazzad', 'Shafin', '21/04/2006', 'Male', '21 woodlands ave', 'kew east', 'VIC', '3102', 'shshafin35@gmail.com', '0400000000', '', 'Coding', 'Frontend Development, Software Development', '', 'New');
+(4, 'DA002', 'Sazzad', 'Shafin', '21/04/2006', 'Male', '21 woodlands ave', 'kew east', 'VIC', '3102', 'shshafin@gmail.com', '0400000001', 'Teamwork', 'Coding', 'Frontend Development, Software Development', 'kegwmwrkaenf', 'Current'),
+(5, 'WD001', 'Sazzad', 'Shafin', '21/04/2006', 'Male', '21 woodlands ave', 'kew east', 'NT', '3102', 'shshafin35@gmail.com', '0400000001', 'Teamwork', 'Coding', 'Frontend Development, Software Development', 'ml/jnjon', 'Final'),
+(6, 'EE003', 'Sazzad', 'Shafin', '21/04/2006', 'Male', '21 woodlands ave', 'kew east', 'NSW', '3102', 'shshafin@gmail.com', '0400000000', 'Teamwork', 'Coding', 'Frontend Development', 'b ,bb', 'New');
 
 -- --------------------------------------------------------
 
@@ -111,6 +112,25 @@ INSERT INTO `jobs` (`job_id`, `job_reference`, `job_title`, `job_description`, `
 (2, 'DA002', 'Data Analyst', 'Collect, organise, and analyse data to help Green Leaf Energy make informed decisions about projects and public engagement.', '$70,000 - $85,000', 'Data and Reporting Manager', 'Full-time', 'Melbourne, VIC', 'Collect and clean project data. Create reports and summaries for internal teams. Analyse trends related to renewable energy projects. Support decision-making through clear data insights.', 'Essential: Excel or spreadsheet skills; attention to detail; ability to explain data clearly. Preferable: Basic SQL knowledge; data visualisation tools; interest in sustainability data.'),
 (3, 'EE003', 'Environmental Engineer', 'Support environmental projects by helping reduce pollution, improve sustainability practices, and monitor project impacts.', '$65,000 - $78,000', 'Environmental Projects Manager', 'Full-time', 'Hybrid', 'Monitor environmental project data. Support pollution reduction activities. Prepare reports and documentation. Recommend practical environmental improvements.', 'Essential: Knowledge of environmental sustainability; report writing skills; problem-solving ability. Preferable: Environmental reporting experience; project coordination skills; interest in clean energy systems.');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `password`) VALUES
+(3, 'admin', 'admin');
+
 --
 -- Indexes for dumped tables
 --
@@ -135,6 +155,13 @@ ALTER TABLE `jobs`
   ADD UNIQUE KEY `job_reference` (`job_reference`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -148,13 +175,19 @@ ALTER TABLE `about_members`
 -- AUTO_INCREMENT for table `eoi`
 --
 ALTER TABLE `eoi`
-  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

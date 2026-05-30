@@ -78,7 +78,7 @@ include("nav.inc");
 <main>
 <section class= "intro">
     <h2> Admin Login</h2>
-    <p> This page is for Admins only. <p>
+    <p>This page is for Admins only. <p>
 </section>  
     <section>
         <?php if ($error != ""): ?>
