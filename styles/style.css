@@ -346,3 +346,100 @@ footer p {
         grid-template-columns: 1fr;
     }
 }
+
+/* LOGIN PAGE */
+.error-msg {
+    color: #b71c1c;
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.success-msg {
+    color: #1b5e20;
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* MANAGE PAGE */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.stat-card {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-card .stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #1b5e20;
+}
+
+.stat-card .stat-label {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* STATUS BADGES */
+.status-new {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+.status-current {
+    background-color: #fff3e0;
+    color: #e65100;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+.status-final {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+.manage-page .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.manage-page .filter-bar input,
+.manage-page .filter-bar select {
+    width: auto;
+    margin: 0;
+}
+
+.danger-btn {
+    background-color: #c62828;
+}
+
+.danger-btn:hover,
+.danger-btn:focus {
+    background-color: #b71c1c;
+}
