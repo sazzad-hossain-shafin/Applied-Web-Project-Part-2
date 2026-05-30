@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$locked_out) {
 
    if ($result && mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
-    if (password_verify($password, $row["password"])) {
+  if ($password === $row["password"]) {
         /* Successful login */
         $_SESSION["logged_in"] = true;
         $_SESSION["username"] = $username;
